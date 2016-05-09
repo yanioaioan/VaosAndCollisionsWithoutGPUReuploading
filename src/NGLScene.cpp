@@ -542,6 +542,8 @@ void NGLScene::timerEvent( QTimerEvent *_event )
         for(auto &v:t.m_verts)
         {
             ngl::Vec4 tmp(v);
+
+            //Transform all the vertices of the vao with from Model to World space (multiplying with physicsModelToWorlsTransformationMatrix) to perform collision detection
             tmp=tmp*physicsModelToWorlsTransformationMatrix;
             v= tmp.toVec3();
 //            std::cout<<v<<std::endl;
@@ -561,7 +563,7 @@ void NGLScene::timerEvent( QTimerEvent *_event )
 //                    s.m_velocity=-s.m_velocity;
 //                }
 
-                //check Triangle-Triangle collision
+                //check Triangle-Triangle collision based on new transformed vertices
                 for(auto &v:s.m_verts)//if any of this triangle's vertices satisfies the following condition reverse the triangle's velocity
                 {
                     std::cout<<v<<std::endl;
